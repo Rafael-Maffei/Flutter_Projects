@@ -56,13 +56,61 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   String imageImcExcesso = 'assets/excesso.jpg';
   String imageImcObesidade = 'assets/obesidade.jpg';
   String imageImcObesidade2 = 'assets/obesidade2.jpg';
+  String chosenImage = '';
 
   double imc = 0.0;
   double altura = 0.0;
   double peso = 0.0;
 
+  
   void calculaImc() {
+
     imc = altura / peso * peso;
+
+    switch(imc) {               
+                
+    case num==18: { 
+
+    chosenImage = imageImcExcesso;
+      // statements; 
+   } 
+    break; 
+
+    case imc = <25: { 
+
+    chosenImage = imageImcMagreza;
+      // statements; 
+   } 
+    break; 
+
+    case imc = <30: { 
+
+    chosenImage = imageImcNormal;
+      // statements; 
+   } 
+    break; 
+
+    case imc = <35: { 
+
+    chosenImage = imageImcObesidade;
+      // statements; 
+   } 
+    break; 
+  
+    case imc = >35: { 
+
+   chosenImage = imageImcObesidade2;
+      // statements; 
+   } 
+    break; 
+      
+    default: { 
+
+      imageImcNormal; 
+      
+   }
+    break; 
+  }
 
     print('IMC');
   }
@@ -117,8 +165,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             child: Container(
               margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
               // color: Colors.amber[600],
-              child: Image.asset(
-                imageImcNormal,
+              child: Image.asset(               
+                chosenImage,
                 scale: 0.7,
               ),
             ),
