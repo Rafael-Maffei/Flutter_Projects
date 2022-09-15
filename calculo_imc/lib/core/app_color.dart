@@ -29,7 +29,7 @@ class SO extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.getColorFor(color),
+      // backgroundColor: AppColor.getColorFor(color),
       appBar: AppBar(),
     );
   }
