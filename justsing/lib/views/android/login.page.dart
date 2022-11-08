@@ -13,38 +13,13 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String user = '';
   String password = '';
-
   bool showPassword = false;
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent, 
-      ),
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.grey[850],
-      body: Stack(
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-          Text(
-            'justSing!',
-            style: TextStyle(
-                color: Colors.orange,
-                fontSize: 50,
-                fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 80),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 60),
-            child: Column(
-              children: [
+  Widget inputs () {
+    return Column(
+      children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 50),
+                padding: EdgeInsets.symmetric(horizontal: 50),
                   child: TextFormField(
                     onChanged: (text) {
                       user = text;
@@ -67,9 +42,7 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
-                SizedBox(
-                  height: 25,
-                ),
+                SizedBox(height: 5,),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 50),
                   child: TextFormField(
@@ -103,39 +76,72 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 50),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () =>
-                          Navigator.of(context).pushNamed('/registry'),
-                      child: Text(
-                        'Cadastrar-se',
-                        style: TextStyle(color: Colors.orange),
+                 Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 50),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () =>
+                            Navigator.of(context).pushNamed('/registry'),
+                        child: Text(
+                          'Cadastrar-se',
+                          style: TextStyle(color: Colors.orange),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                SizedBox(height: 100),
-                MaterialButton(
-                  onPressed: () {
-                    if (user == 'teste' && password == '123') {
-                      Navigator.of(context).pushNamed('/profile');
-                    }
-                  },
-                  child: Text('Login'),
+                  ),   
+            ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent, 
+      ),
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.grey[850],
+      body: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+         
+          
+          Container(
+            child: Text(
+              'justSing!',
+              style: TextStyle(
                   color: Colors.orange,
-                  textColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25)),
-                )
-              ],
+                  fontSize: 50,
+                  fontWeight: FontWeight.bold),
             ),
           ),
-          ],
+          Container(child: inputs()),
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 60),
+              child: Column(
+                children: [
+                  
+                  MaterialButton(
+                    onPressed: () {
+                      if (user == 'teste' && password == '123') {
+                        Navigator.of(context).pushNamed('/profile');
+                      }
+                    },
+                    child: Text('Login'),
+                    color: Colors.orange,
+                    textColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25)),
+                  )
+                ],
+              ),
+            ),
           ),
-        ],
+          ]
       ),
     );
   }
