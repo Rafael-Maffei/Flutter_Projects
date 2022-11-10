@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:justsing/views/android/search.page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,8 +13,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String user = '';
-  String password = '';
+  final _emailController = TextEditingController();
+  final _senhaController = TextEditingController();
+  final _firebaseAuth = FirebaseAuth.instance;
+
+  bool loading = false;
+
   bool showPassword = false;
 
   Widget inputs() {
@@ -21,9 +27,7 @@ class _LoginPageState extends State<LoginPage> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 50),
           child: TextFormField(
-            onChanged: (text) {
-              user = text;
-            },
+            controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             cursorColor: Colors.orange,
             decoration: InputDecoration(
@@ -47,9 +51,7 @@ class _LoginPageState extends State<LoginPage> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 50),
           child: TextFormField(
-            onChanged: (text) {
-              password = text;
-            },
+            controller: _senhaController,
             obscureText: showPassword == false ? true : false,
             keyboardType: TextInputType.visiblePassword,
             cursorColor: Colors.orange,
@@ -125,24 +127,63 @@ class _LoginPageState extends State<LoginPage> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 60),
                 child: Column(
-                  children: [
-                    MaterialButton(
-                      onPressed: () {
-                        if (user == 'teste' && password == '123') {
-                          Navigator.of(context).pushNamed('/profile');
-                        }
-                      },
-                      child: Text('Login'),
-                      color: Colors.orange,
-                      textColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25)),
-                    )
-                  ],
+                  children: (loading)
+                      ? [
+                          Padding(
+                            padding: EdgeInsets.all(16),
+                            child: SizedBox(
+                                width: 24,
+                                height: 24,
+                                child: CircularProgressIndicator(
+                                    color: Colors.white)),
+                          )
+                        ]
+                      : [
+                          MaterialButton(
+                            onPressed: () {
+                              login();
+                            },
+                            child: Text('Login'),
+                            color: Colors.orange,
+                            textColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25)),
+                          )
+                        ],
                 ),
               ),
             ),
           ]),
     );
+  }
+
+  login() async {
+    setState(() {
+      loading = true;
+    });
+    try {
+      UserCredential userCredential =
+          await _firebaseAuth.signInWithEmailAndPassword(
+              email: _emailController.text, password: _senhaController.text);
+      if (userCredential != null) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SearchPage(),
+            ),
+            (route) => false);
+      }
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        loading = false;
+      });
+      if (e.code == 'user-not=found') {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Usuario não encontrado')));
+      } else if (e.code == 'wrong-password') {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Senha está incorreta')));
+      }
+    }
   }
 }
