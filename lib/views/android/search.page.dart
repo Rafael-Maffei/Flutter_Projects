@@ -44,14 +44,24 @@ class _SearchPageState extends State<SearchPage> {
         floatingActionButton: Center(
           child: AvatarGlow(
             animate: _isListening,
+            showTwoGlows: true,
             glowColor: Colors.amber,
-            endRadius: 75.0,
+            endRadius: 100,
             duration: const Duration(milliseconds: 2000),
             repeatPauseDuration: const Duration(milliseconds: 100),
             repeat: true,
-            child: FloatingActionButton(
-              onPressed: (() {}), //_listen,
-              child: Icon(_isListening ? Icons.mic : Icons.mic_none),
+            child: GestureDetector(
+              child: Container(
+                padding: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  color: Colors.orange,
+                  borderRadius: BorderRadius.all(Radius.circular(360)),
+                ),
+                child: Icon(
+                  _isListening ? Icons.mic : Icons.mic_none,
+                  size: 100,
+                ),
+              ),
             ),
           ),
         ),
