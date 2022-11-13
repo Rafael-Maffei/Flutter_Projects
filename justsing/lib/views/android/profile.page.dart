@@ -44,7 +44,7 @@ class ProfilePage extends StatelessWidget {
                         color: Colors.transparent,
                         clipBehavior: Clip.antiAliasWithSaveLayer,
                         child: InkWell(
-                          splashColor: Colors.orange,
+                          splashColor: Colors.transparent,
                           onTap: () {},
                           child:
                               Image.asset("assets/" + emptyPicture, scale: 3.5),
@@ -75,10 +75,11 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
               Flexible(
-                  child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.grey[800],
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                  child: SingleChildScrollView(
+                reverse: true,
+                // decoration: BoxDecoration(
+                //     color: Colors.grey[800],
+                //     borderRadius: BorderRadius.all(Radius.circular(20))),
               ))
             ],
           ),
