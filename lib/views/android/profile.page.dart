@@ -32,56 +32,72 @@ class ProfilePage extends StatelessWidget {
                   ),
                 )
               ]),
-          body: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Material(
-                        shape: CircleBorder(),
-                        color: Colors.transparent,
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        child: InkWell(
-                          splashColor: Colors.transparent,
-                          onTap: () {},
-                          child:
-                              Image.asset("assets/" + emptyPicture, scale: 3.5),
-                        )),
-                  ],
+          body: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 6,
+            ),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Material(
+                          shape: CircleBorder(),
+                          color: Colors.transparent,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          child: InkWell(
+                            splashColor: Colors.transparent,
+                            onTap: () {},
+                            child: Image.asset("assets/" + emptyPicture,
+                                scale: 3.5),
+                          )),
+                    ],
+                  ),
                 ),
-              ),
-              // ignore: prefer_const_constructors
-              Padding(
-                padding: const EdgeInsets.only(top: 30),
-                child: Text(
-                  'Nome do usuário',
-                  style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold),
+                // ignore: prefer_const_constructors
+                Padding(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: Text(
+                    'Nome do usuário',
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-              // ignore: prefer_const_constructors
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 30, 240, 5),
-                child: Text(
-                  'Histórico',
-                  style: TextStyle(
-                      color: Colors.orange,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
+                // ignore: prefer_const_constructors
+                Container(
+                  width: double.infinity,
+                  child: Text(
+                    'Histórico',
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-              Flexible(
-                  child: SingleChildScrollView(
-                reverse: true,
-                // decoration: BoxDecoration(
-                //     color: Colors.grey[800],
-                //     borderRadius: BorderRadius.all(Radius.circular(20))),
-              ))
-            ],
+                Flexible(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10))),
+                    child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                      itemCount: 50,
+                      itemBuilder: (context, index) => ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        key: UniqueKey(),
+                        title: Text("teste $index"),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ));
   }
