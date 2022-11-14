@@ -38,7 +38,9 @@ class _SearchPageState extends State<SearchPage> {
     await _speechToText.listen(onResult: (SpeechRecognitionResult result) {
       print("PALAVRAS FALADAS: ");
       print(result.recognizedWords);
-      _lastWords += result.recognizedWords;
+      setState(() {
+        _lastWords += result.recognizedWords;
+      });
     });
   }
 
