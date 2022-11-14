@@ -27,7 +27,8 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _initSpeech() async {
-    _speechEnabled = await _speechToText.initialize();
+    _speechEnabled = await _speechToText!.initialize();
+
     print("ENTROU AQUI BROW");
     /* setState(() async {
       _speechEnabled = await _speechToText.initialize();
@@ -35,9 +36,9 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _startListening() async {
-    /* await _speechToText.listen(onResult: (SpeechRecognitionResult result) {
+    await _speechToText.listen(onResult: (SpeechRecognitionResult result) {
       print(result);
-    }); */
+    });
     changeListeningState();
   }
 
@@ -80,7 +81,6 @@ class _SearchPageState extends State<SearchPage> {
             repeat: true,
             child: GestureDetector(
               onLongPress: () {
-                _initSpeech();
                 _startListening();
               },
               onLongPressEnd: ((details) {
