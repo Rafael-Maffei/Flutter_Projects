@@ -178,7 +178,8 @@ class _RegistryPageState extends State<RegistryPage> {
           await _firebaseAuth.createUserWithEmailAndPassword(
               email: _emailController.text, password: _senhaController.text);
       if (userCredential != null) {
-        userCredential.user!.updateDisplayName(_usuarioController.text);
+        await userCredential.user!.updateDisplayName(_usuarioController.text);
+
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
@@ -189,14 +190,14 @@ class _RegistryPageState extends State<RegistryPage> {
     } on FirebaseAuthException catch (e) {
       setState(() {
         loading = false;
+        if (e.code == 'weak-passoword') {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Crie uma senha mais forte')));
+        } else if (e.code == 'email-already-in-use') {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Email já está sendo usado')));
+        }
       });
-      if (e.code == 'weak-passoword') {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Crie uma senha mais forte')));
-      } else if (e.code == 'email-already-in-use') {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Email já está sendo usado')));
-      }
     }
   }
 }

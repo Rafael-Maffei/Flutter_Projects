@@ -4,6 +4,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:justsing/views/android/search.page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -100,6 +101,12 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  void saveDisplayName(String name) async {
+    var sharedPreferences = await SharedPreferences.getInstance();
+
+    sharedPreferences.setString("displayName", name);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -165,7 +172,10 @@ class _LoginPageState extends State<LoginPage> {
       UserCredential userCredential =
           await _firebaseAuth.signInWithEmailAndPassword(
               email: _emailController.text, password: _senhaController.text);
+
       if (userCredential != null) {
+        saveDisplayName(userCredential.user!.displayName.toString());
+
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
@@ -174,10 +184,12 @@ class _LoginPageState extends State<LoginPage> {
             (route) => false);
       }
     } on FirebaseAuthException catch (e) {
+      print("fail oi ");
       setState(() {
         loading = false;
       });
       if (e.code == 'user-not=found') {
+        print("oi2");
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Usuario não encontrado')));
       } else if (e.code == 'wrong-password') {

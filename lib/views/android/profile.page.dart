@@ -1,11 +1,33 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 String emptyPicture = "emptyProfilePicture.png";
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({Key? key}) : super(key: key);
+
+  @override
+  State<ProfilePage> createState() => _ProfilePage();
+}
+
+class _ProfilePage extends State<ProfilePage> {
+  String? name;
+
+  void setDisplayName() async {
+    var sharedPreferences = await SharedPreferences.getInstance();
+
+    setState(() {
+      name = sharedPreferences.getString("displayName") ?? '';
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setDisplayName();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +82,7 @@ class ProfilePage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 30),
                   child: Text(
-                    'Nome do usuário',
+                    '${name}',
                     style: TextStyle(
                         color: Colors.grey,
                         fontSize: 28,
