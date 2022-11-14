@@ -44,8 +44,9 @@ class _SearchPageState extends State<SearchPage> {
   void changeListeningState() {
     setState(() {
       _isListening = !_isListening;
-      _isListening ? _stopListening() : _startListening();
     });
+
+    _isListening ? _stopListening() : _startListening();
   }
 
   void _stopListening() async {
