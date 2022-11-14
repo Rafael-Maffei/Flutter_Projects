@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 String iconProfile = "iconProfile.png";
 String iconSearch = "iconSearch.png";
@@ -15,13 +16,40 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  stt.SpeechToText? _speech;
   bool _isListening = false;
+  SpeechToText _speechToText = SpeechToText();
+  bool _speechEnabled = false;
+  String _lastWords = '';
 
   @override
   void initState() {
     super.initState();
-    _speech = stt.SpeechToText();
+  }
+
+  void _initSpeech() async {
+    _speechEnabled = await _speechToText.initialize();
+    print("ENTROU AQUI BROW");
+    /* setState(() async {
+      _speechEnabled = await _speechToText.initialize();
+    }); */
+  }
+
+  void _startListening() async {
+    /* await _speechToText.listen(onResult: (SpeechRecognitionResult result) {
+      print(result);
+    }); */
+    changeListeningState();
+  }
+
+  void changeListeningState() {
+    setState(() {
+      _isListening = !_isListening;
+    });
+  }
+
+  void _stopListening() async {
+    await _speechToText.stop();
+    changeListeningState();
   }
 
   @override
@@ -51,6 +79,13 @@ class _SearchPageState extends State<SearchPage> {
             repeatPauseDuration: const Duration(milliseconds: 100),
             repeat: true,
             child: GestureDetector(
+              onLongPress: () {
+                _initSpeech();
+                _startListening();
+              },
+              onLongPressEnd: ((details) {
+                _stopListening();
+              }),
               child: Container(
                 padding: EdgeInsets.all(15),
                 decoration: BoxDecoration(
@@ -65,57 +100,7 @@ class _SearchPageState extends State<SearchPage> {
             ),
           ),
         ),
-        // body: Center(
-        //   child:
-        //     Column(
-        //         mainAxisAlignment: MainAxisAlignment.center,
-        //         children: [
-        //           Material(
-        //             shape: CircleBorder(),
-        //             clipBehavior: Clip.antiAliasWithSaveLayer,
-        //             child: InkWell(
-        //               splashColor: Colors.purple[800],
-        //               onTap: () {},
-        //               child: Image.asset("assets/" + iconSearch, scale: 3),
-        //             ),
-        //           ),
-        //           // ignore: prefer_const_constructors
-        //           Padding(
-        //             padding: const EdgeInsets.only(top: 25),
-        //             // ignore: prefer_const_constructors
-        //             child: Text(
-        //               'Pesquisar música',
-        //               // ignore: prefer_const_constructors
-        //               style: TextStyle(
-        //                   color: Colors.orange,
-        //                   fontSize: 20,
-        //                   fontWeight: FontWeight.bold),
-        //             ),
-        //           ),
-        //           SizedBox(height: 50,),
-        //         ],
-        //         ),
-        // ),
       ),
     );
   }
-
-  // void _listen() async {
-  //   if (!_isListening) {
-  //     bool available = await _speech.initialize(
-  //       onStatus: (val) => print('onStatus: $val'),
-  //       onError: (val) => print('onError: $val'),
-  //     );
-  //     if (available) {
-  //       setState(() => _isListening = true);
-  //       _speech.listen(
-  //           onResult: (val) => setState(() {
-  //                 _text = val.recognizedWords;
-  //               }));
-  //     } else {
-  //       setState(() => _isListening = false);
-  //       _speech.stop();
-  //     }
-  //   }
-  // }
 }
