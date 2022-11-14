@@ -28,35 +28,32 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _initSpeech() async {
-    _speechEnabled = await _speechToText!.initialize();
+    _speechEnabled = await _speechToText.initialize();
 
-    print("ENTROU AQUI BROW");
-    print(_speechEnabled is SpeechToText);
-
-    /* setState(() async {
-      _speechEnabled = await _speechToText.initialize();
-    }); */
+    print("PERMISSÃO:");
+    print(_speechToText.hasPermission);
   }
 
   void _startListening() async {
     await _speechToText.listen(onResult: (SpeechRecognitionResult result) {
-      print(result);
+      print("PALAVRAS FALADAS: ");
+      print(result.recognizedWords);
     });
   }
 
   void changeListeningState() {
     setState(() {
       _isListening = !_isListening;
+
+      if (!_speechEnabled) _initSpeech();
+
+      _isListening ? _startListening() : _stopListening();
+      print(_isListening);
     });
-
-    _startListening();
-
-    // _isListening ? _stopListening() : _startListening();
   }
 
   void _stopListening() async {
     await _speechToText.stop();
-    changeListeningState();
   }
 
   @override
@@ -86,9 +83,7 @@ class _SearchPageState extends State<SearchPage> {
             repeatPauseDuration: const Duration(milliseconds: 100),
             repeat: true,
             child: GestureDetector(
-              onTap: () {
-                changeListeningState();
-              },
+              onTap: () => changeListeningState(),
               child: Container(
                 padding: EdgeInsets.all(15),
                 decoration: BoxDecoration(
