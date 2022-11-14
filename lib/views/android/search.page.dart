@@ -23,14 +23,16 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   void initState() {
-    _initSpeech();
     super.initState();
+    _initSpeech();
   }
 
   void _initSpeech() async {
     _speechEnabled = await _speechToText!.initialize();
 
     print("ENTROU AQUI BROW");
+    print(_speechEnabled is SpeechToText);
+
     /* setState(() async {
       _speechEnabled = await _speechToText.initialize();
     }); */
@@ -46,6 +48,8 @@ class _SearchPageState extends State<SearchPage> {
     setState(() {
       _isListening = !_isListening;
     });
+
+    _startListening();
 
     // _isListening ? _stopListening() : _startListening();
   }
