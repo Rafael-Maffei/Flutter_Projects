@@ -39,12 +39,12 @@ class _SearchPageState extends State<SearchPage> {
     await _speechToText.listen(onResult: (SpeechRecognitionResult result) {
       print(result);
     });
-    changeListeningState();
   }
 
   void changeListeningState() {
     setState(() {
       _isListening = !_isListening;
+      _isListening ? _stopListening() : _startListening();
     });
   }
 
@@ -80,12 +80,9 @@ class _SearchPageState extends State<SearchPage> {
             repeatPauseDuration: const Duration(milliseconds: 100),
             repeat: true,
             child: GestureDetector(
-              onLongPress: () {
-                _startListening();
+              onTap: () {
+                changeListeningState();
               },
-              onLongPressEnd: ((details) {
-                _stopListening();
-              }),
               child: Container(
                 padding: EdgeInsets.all(15),
                 decoration: BoxDecoration(
