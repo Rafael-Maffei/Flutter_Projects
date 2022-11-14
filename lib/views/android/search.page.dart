@@ -23,6 +23,7 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   void initState() {
+    _initSpeech();
     super.initState();
   }
 
@@ -46,7 +47,7 @@ class _SearchPageState extends State<SearchPage> {
       _isListening = !_isListening;
     });
 
-    _isListening ? _stopListening() : _startListening();
+    // _isListening ? _stopListening() : _startListening();
   }
 
   void _stopListening() async {
