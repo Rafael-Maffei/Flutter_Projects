@@ -1,12 +1,10 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:avatar_glow/avatar_glow.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
-
-String iconProfile = "iconProfile.png";
-String iconSearch = "iconSearch.png";
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -16,6 +14,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  final _firebaseAuth = FirebaseAuth.instance;
   bool _isListening = false;
   SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
@@ -29,17 +28,14 @@ class _SearchPageState extends State<SearchPage> {
 
   void _initSpeech() async {
     _speechEnabled = await _speechToText.initialize();
-
-    print("PERMISSÃO:");
-    print(_speechToText.hasPermission);
   }
 
   void _startListening() async {
     await _speechToText.listen(onResult: (SpeechRecognitionResult result) {
-      print("PALAVRAS FALADAS: ");
-      print(result.recognizedWords);
+      _lastWords = '';
+
       setState(() {
-        _lastWords += result.recognizedWords;
+        _lastWords = result.recognizedWords;
       });
     });
   }
@@ -51,9 +47,6 @@ class _SearchPageState extends State<SearchPage> {
       if (!_speechEnabled) _initSpeech();
 
       _isListening ? _startListening() : _stopListening();
-      print("MICROFONE LIGADO");
-      print(_speechToText.isListening);
-      print(_isListening);
     });
   }
 
@@ -70,14 +63,28 @@ class _SearchPageState extends State<SearchPage> {
           scaffoldBackgroundColor: Colors.grey[850]),
       home: Scaffold(
         appBar: AppBar(title: Text('justSing!'), actions: [
-          GestureDetector(
-            child: ElevatedButton(
-              onPressed: () => Navigator.of(context).pushNamed('/profile'),
-              child: Icon(Icons.person),
-            ),
-          ),
+          _firebaseAuth.currentUser == null
+              ? GestureDetector(
+                  child: ElevatedButton(
+                    onPressed: () => Navigator.of(context).pushNamed('/login'),
+                    child: Text("Login"),
+                  ),
+                )
+              : GestureDetector(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      var result =
+                          await Navigator.of(context).pushNamed('/profile');
+                      setState(() {});
+                    },
+                    child: Icon(Icons.person),
+                  ),
+                )
         ]),
-        body: Text("$_lastWords"),
+        body: Text(
+          "$_lastWords",
+          style: TextStyle(color: Colors.amber, fontSize: 30),
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Center(
           child: AvatarGlow(

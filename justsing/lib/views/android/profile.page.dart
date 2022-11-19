@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,6 +14,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePage extends State<ProfilePage> {
+  final _firebaseAuth = FirebaseAuth.instance;
   String? name;
 
   void setDisplayName() async {
@@ -49,8 +51,11 @@ class _ProfilePage extends State<ProfilePage> {
               actions: [
                 GestureDetector(
                   child: ElevatedButton(
-                    onPressed: () => Navigator.of(context).pushNamed('/login'),
-                    child: Text("Login"),
+                    onPressed: () {
+                      _firebaseAuth.signOut();
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("Logout"),
                   ),
                 )
               ]),
