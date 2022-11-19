@@ -1,0 +1,4 @@
+#Sat Nov 19 17:58:32 BRT 2022
+base.0=C\:\\Users\\Rafael\\Documents\\Flutter_Projects\\justsing\\build\\app\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
