@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:justsing/views/android/result.page.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
@@ -81,9 +82,24 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 )
         ]),
-        body: Text(
-          "$_lastWords",
-          style: TextStyle(color: Colors.amber, fontSize: 30),
+        body: Column(
+          children: [
+            Text(
+              "$_lastWords",
+              style: TextStyle(color: Colors.amber, fontSize: 30),
+            ),
+            Flexible(
+              child: FloatingActionButton(
+                  backgroundColor: Colors.orange,
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ViewApp(
+                                lastWords: _lastWords,
+                              ))),
+                  child: Text('Buscar')),
+            ),
+          ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Center(
