@@ -88,7 +88,7 @@ class _SearchPageState extends State<SearchPage> {
               "$_lastWords",
               style: TextStyle(color: Colors.amber, fontSize: 30),
             ),
-            Flexible(
+            Container(
               child: FloatingActionButton(
                   backgroundColor: Colors.orange,
                   onPressed: () => Navigator.push(
