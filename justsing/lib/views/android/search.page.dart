@@ -6,6 +6,7 @@ import 'package:avatar_glow/avatar_glow.dart';
 import 'package:justsing/views/android/result.page.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
+import 'package:justsing/views/android/profile.page.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -76,6 +77,10 @@ class _SearchPageState extends State<SearchPage> {
                     onPressed: () async {
                       var result =
                           await Navigator.of(context).pushNamed('/profile');
+                      MaterialPageRoute(
+                          builder: (context) => ProfilePage(
+                                lastWords: _lastWords,
+                              ));
                       setState(() {});
                     },
                     child: Icon(Icons.person),
@@ -97,7 +102,7 @@ class _SearchPageState extends State<SearchPage> {
                           builder: (context) => ViewApp(
                                 lastWords: _lastWords,
                               ))),
-                  child: Text('Buscar')),
+                  child: Icon(Icons.search_outlined)),
             ),
           ],
         ),

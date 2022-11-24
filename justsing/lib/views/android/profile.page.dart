@@ -3,11 +3,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:justsing/views/android/search.page.dart';
 
 String emptyPicture = "emptyProfilePicture.png";
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  String? lastWords;
+
+  ProfilePage({this.lastWords});
 
   @override
   State<ProfilePage> createState() => _ProfilePage();
@@ -53,7 +56,7 @@ class _ProfilePage extends State<ProfilePage> {
                   child: ElevatedButton(
                     onPressed: () {
                       _firebaseAuth.signOut();
-                      Navigator.of(context).pop();
+                      Navigator.of(context).pop('/search');
                     },
                     child: Text("Logout"),
                   ),
@@ -116,7 +119,7 @@ class _ProfilePage extends State<ProfilePage> {
                       itemBuilder: (context, index) => ListTile(
                         contentPadding: EdgeInsets.zero,
                         key: UniqueKey(),
-                        title: Text("teste $index"),
+                        title: Text("$index lastWords"),
                       ),
                     ),
                   ),
