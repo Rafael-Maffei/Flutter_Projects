@@ -25,7 +25,11 @@ class _PlayerState extends State<PlayerPage> {
 
     _controller = YoutubePlayerController(
       initialVideoId: videoID!,
-      flags: const YoutubePlayerFlags(autoPlay: false),
+      flags: const YoutubePlayerFlags(
+          autoPlay: true,
+          controlsVisibleAtStart: false,
+          hideControls: true,
+          showLiveFullscreenButton: false),
     );
 
     super.initState();
