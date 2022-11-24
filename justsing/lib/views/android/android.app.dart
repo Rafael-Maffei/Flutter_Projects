@@ -6,6 +6,7 @@ import 'package:justsing/views/android/profile.page.dart';
 import 'package:justsing/views/android/registry.page.dart';
 import 'package:justsing/views/android/search.page.dart';
 import 'package:justsing/views/android/result.page.dart';
+import 'package:justsing/views/android/display.page.dart';
 
 class AndroidApp extends StatelessWidget {
   @override
@@ -19,6 +20,7 @@ class AndroidApp extends StatelessWidget {
           '/login': (context) => LoginPage(),
           '/registry': (context) => RegistryPage(),
           '/result': (context) => ResultPage(),
+          '/display': (context) => PlayerPage(),
         });
   }
 }

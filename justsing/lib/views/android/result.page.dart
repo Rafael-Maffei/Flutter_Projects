@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:justsing/views/android/display.page.dart';
 import 'package:youtube_api/youtube_api.dart';
 import 'package:justsing/views/android/search.page.dart';
 
@@ -70,48 +71,60 @@ class _ViewAppState extends State<ViewApp> {
   Widget listItem(YouTubeVideo video) {
     return Card(
       color: Colors.grey[850],
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 7.0),
-        padding: EdgeInsets.all(12.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: Image.network(
-                video.thumbnail.small.url ?? '',
-                width: 120.0,
+      child: GestureDetector(
+        onTap: () {
+          String _link = video.url;
+          print(_link);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PlayerPage(
+                        link: _link,
+                      )));
+        },
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: 7.0),
+          padding: EdgeInsets.all(12.0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(right: 20.0),
+                child: Image.network(
+                  video.thumbnail.small.url ?? '',
+                  width: 120.0,
+                ),
               ),
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    video.title,
-                    softWrap: true,
-                    style: TextStyle(
-                        fontSize: 18.0,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 3.0),
-                    child: Text(
-                      video.channelTitle,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      video.title,
                       softWrap: true,
                       style: TextStyle(
-                          fontWeight: FontWeight.w900, color: Colors.orange),
+                          fontSize: 18.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500),
                     ),
-                  ),
-                  // Text(
-                  //   video.url,
-                  //   softWrap: true,
-                  // ),
-                ],
-              ),
-            )
-          ],
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 3.0),
+                      child: Text(
+                        video.channelTitle,
+                        softWrap: true,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w900, color: Colors.orange),
+                      ),
+                    ),
+                    // Text(
+                    //   video.url,
+                    //   softWrap: true,
+                    // ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
